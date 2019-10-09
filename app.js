@@ -1,16 +1,25 @@
 /* Tareas pendientes:
 
 # números negativos
-# que después de un / no se pueda poner un 0
-# que se muestre el resultado
 # poder realizar operaciones a través del teclado también
 
 */
 
 const datos = document.getElementById('datos');
+let currentValue = '';
+let lastValue = '';
 
 function clickHandler (event) {
-  datos.innerText += event.target.value;
+  currentValue = event.target.value;
+  console.log(lastValue,currentValue);
+
+  if (lastValue === '/' && currentValue == 0) {
+    alert('¡No se puede dividir entre cero!');
+  } else {
+    datos.innerText += currentValue;
+  }
+
+  lastValue = currentValue;
 }
 
 function reiniciar () {
