@@ -1,0 +1,69 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+    overflow-y: hidden;
+}
+
+.calculadora {
+  background-color:darkgrey;
+  border-radius:15px 15px 5px 5px;
+  padding:10px;
+}
+
+.salida {
+  height:50px;
+  background-color:grey;
+  margin:10px;
+}
+
+.salida > p {
+  font-size:20px;
+  line-height:50px;
+  padding-left:10px;
+}
+
+.parpadeo {
+  font-weight: bold;
+  animation-name:parpadeo;
+  animation-duration:1s;
+  animation-iteration-count: infinite;
+  color:yellow;
+}
+
+@keyframes parpadeo {
+  0% {opacity:0;}
+  25% {opacity:0.25;}
+  50% {opacity:0.5;}
+  75% {opacity:0.75;}
+  100% {opacity:1;}
+}
+
+.botones {
+  width:90vw;
+  max-width:320px;
+  display:grid;
+  grid-template-columns:[column1] 25% 25% 25% [column4] 25%;
+  grid-template-rows:50px 50px 50px [row4] 50px 50px [row6];
+}
+
+#igual {
+  grid-column-start: column4;
+  grid-column-end: column4;
+  grid-row-start: row4;
+  grid-row-end:row6;
+}
+
+#cero {
+  grid-column-start: column1;
+  grid-column-end: column4;
+}
+
+button {
+  margin:5px;
+}
+
+button:hover {
+  cursor:pointer;
+}

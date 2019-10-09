@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Frontend Calculadora</title>
+  <link type="text/css" rel="stylesheet" href="main.css"/>
+</head>
+<body>
+  <div class="calculadora">
+    <div class="salida">
+      <p><span id="datos"></span><span class="parpadeo">|</span></p>
+    </div>
+    <div class="botones">
+      <button id="reiniciar" type="button" value="C" onclick="reiniciar()">C</button>
+      <button id="dividir" type="button" value="/" onclick="clickHandler(event)">/</button>
+      <button id="multiplicar" type="button" value="x" onclick="clickHandler(event)">x</button>
+      <button id="borrar" type="button" value="borrar" onclick="clickHandler(event)">B</button>
+      <button id="siete" type="button" value="7" onclick="clickHandler(event)">7</button>
+      <button id="ocho" type="button" value="8" onclick="clickHandler(event)">8</button>
+      <button id="nueve" type="button" value="9" onclick="clickHandler(event)">9</button>
+      <button id="restar" type="button" value="-" onclick="clickHandler(event)">-</button>
+      <button id="cuatro" type="button" value="4" onclick="clickHandler(event)">4</button>
+      <button id="cinco" type="button" value="5" onclick="clickHandler(event)">5</button>
+      <button id="seis" type="button" value="6" onclick="clickHandler(event)">6</button>
+      <button id="sumar" type="button" value="+" onclick="clickHandler(event)">+</button>
+      <button id="uno" type="button" value="1" onclick="clickHandler(event)">1</button>
+      <button id="tres" type="button" value="3" onclick="clickHandler(event)">3</button>
+      <button id="dos" type="button" value="2" onclick="clickHandler(event)">2</button>
+      <button id="igual" type="button" value="=" onclick="calcular()">=</button>
+      <button id="cero" type="button" value="0" onclick="clickHandler(event)">0</button>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
