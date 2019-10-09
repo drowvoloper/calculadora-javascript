@@ -1,6 +1,6 @@
 /* Tareas pendientes:
 
-// no poner dos puntos antes de un operador
+// accesibilidad
 
 */
 
@@ -14,19 +14,39 @@ const operadores = [['+','-'],['/','x']]
 function clickHandler (event) {
   valorActual = event.target.value;
 
-  if (ultimoValor === '/' && valorActual == 0) {
-    return alert('¡No se puede dividir entre cero!');
-  } else if (operadores[0].includes(ultimoValor) && operadores[1].includes(valorActual)) {
-    return alert('Esa operación no es válida');
-  } else if (operadores[1].includes(ultimoValor) && operadores[1].includes(valorActual)) {
-    return alert('Esa operación no es válida');
-  } else if (operadores[0].includes(penultimoValor) && operadores[0].includes(ultimoValor) && operadores[0].includes(valorActual)) {
-    return alert('Esa operación no es válida');
-  } else if (ultimoValor === '.' && valorActual === '.') {
-    return alert('Esa operación no es válida');
+
+  if (ultimoValor === '/'
+   && valorActual == 0) {                               // No se puede dividir entre cero
+     return;
+  } else if (operadores[0].includes(ultimoValor)        // No se puede poner un operador de
+          && operadores[1].includes(valorActual)) {     // multiplicación o división después de
+    return;                                             // operadores de suma y resta
+  } else if (operadores[1].includes(ultimoValor)        // o de otros operadores de multiplicación o división
+          && operadores[1].includes(valorActual)) {
+    return;
+  } else if (operadores[0].includes(penultimoValor)     // No se pueden poner tres operadores
+          && operadores[0].includes(ultimoValor)        // de suma y/o resta seguidos
+          && operadores[0].includes(valorActual)) {
+    return;
+  } else if (ultimoValor === '.'                        // Tampoco se pueden poner dos puntos seguidos
+          && valorActual === '.') {
+    return;
+  } else if (ultimoValor === '.'
+          && operadores[0].includes(valorActual)) {     // ni delante de operadores
+    return;
+  } else if (ultimoValor === '.'
+          && operadores[1].includes(valorActual)) {
+    return;
+  } else if (valorActual === '.'
+          && operadores[0].includes(ultimoValor)) {     // ni detrás
+    return;
+  } else if (valorActual === '.'
+          && operadores[1].includes(ultimoValor)) {
+    return;
   }
 
   todosValores += valorActual;
+  // Mostramos el límite de valores que caben en la calculadora (21)
   datos.innerText = todosValores.slice(-21);
 
   penultimoValor = ultimoValor;
@@ -35,6 +55,7 @@ function clickHandler (event) {
 
 function reiniciar () {
   datos.innerText = '';
+  todosValores = '';
 }
 
 function calcular () {
@@ -98,8 +119,8 @@ console.log(multiDivisiones);
     }
   });
 
+  // y aquí llegan (por fin) las sumas y las restas
   let operacion = 0;
-
   let resultadoTotal = numeros.reduce( (total,num) => {
     if (sumasRestas[operacion] === '+') {
       operacion += 1;
@@ -110,7 +131,10 @@ console.log(multiDivisiones);
     }
   });
 
-  datos.innerText = resultadoTotal.substr(0,21);
+  // reiniciamos los valores con el total y lo publicamos
+  todosValores = resultadoTotal.toString();
+  datos.innerText = todosValores.substr(0,21);
+
 }
 
 /*
