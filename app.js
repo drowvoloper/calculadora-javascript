@@ -1,6 +1,6 @@
 /* Tareas pendientes:
 
-// límite de valores mostrados en la pantalla
+// no poner dos puntos antes de un operador
 
 */
 
@@ -8,22 +8,26 @@ const datos = document.getElementById('datos');
 let valorActual = null;
 let ultimoValor = null;
 let penultimoValor = null;
+let todosValores = '';
 const operadores = [['+','-'],['/','x']]
 
 function clickHandler (event) {
   valorActual = event.target.value;
 
   if (ultimoValor === '/' && valorActual == 0) {
-    alert('¡No se puede dividir entre cero!');
+    return alert('¡No se puede dividir entre cero!');
   } else if (operadores[0].includes(ultimoValor) && operadores[1].includes(valorActual)) {
-    alert('Esa operación no es válida');
+    return alert('Esa operación no es válida');
   } else if (operadores[1].includes(ultimoValor) && operadores[1].includes(valorActual)) {
-    alert('Esa operación no es válida');
+    return alert('Esa operación no es válida');
   } else if (operadores[0].includes(penultimoValor) && operadores[0].includes(ultimoValor) && operadores[0].includes(valorActual)) {
-    alert('Esa operación no es válida');
-  } else {
-    datos.innerText += valorActual;
+    return alert('Esa operación no es válida');
+  } else if (ultimoValor === '.' && valorActual === '.') {
+    return alert('Esa operación no es válida');
   }
+
+  todosValores += valorActual;
+  datos.innerText = todosValores.slice(-21);
 
   penultimoValor = ultimoValor;
   ultimoValor = valorActual;
@@ -106,7 +110,7 @@ console.log(multiDivisiones);
     }
   });
 
-  datos.innerText = resultadoTotal;
+  datos.innerText = resultadoTotal.substr(0,21);
 }
 
 /*
