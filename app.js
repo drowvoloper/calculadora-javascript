@@ -1,32 +1,32 @@
 /* Tareas pendientes:
 
-# poder realizar operaciones a través del teclado también
-# que no se pueda poner un signo de multiplicación/división detrás de un + o un -
-# que no se pueda poner un + o un - después de dos símbolos de sumar y/o restar
+// límite de valores mostrados en la pantalla
 
 */
 
 const datos = document.getElementById('datos');
-let currentValue = null;
-let lastValue = null;
-//let aCalcular = [];
-//let sumasRestas = [];
+let valorActual = null;
+let ultimoValor = null;
+let penultimoValor = null;
+const operadores = [['+','-'],['/','x']]
 
 function clickHandler (event) {
-  currentValue = event.target.value;
+  valorActual = event.target.value;
 
-  if (lastValue === '/' && currentValue == 0) {
+  if (ultimoValor === '/' && valorActual == 0) {
     alert('¡No se puede dividir entre cero!');
+  } else if (operadores[0].includes(ultimoValor) && operadores[1].includes(valorActual)) {
+    alert('Esa operación no es válida');
+  } else if (operadores[1].includes(ultimoValor) && operadores[1].includes(valorActual)) {
+    alert('Esa operación no es válida');
+  } else if (operadores[0].includes(penultimoValor) && operadores[0].includes(ultimoValor) && operadores[0].includes(valorActual)) {
+    alert('Esa operación no es válida');
   } else {
-    datos.innerText += currentValue;
+    datos.innerText += valorActual;
   }
 
-  /*switch (currentValue) {
-    case '+': if (lastValue && !isNaN(lastValue)) { sumasRestas.push(currentValue) }; break;
-    case '-': if (lastValue && !isNaN(lastValue)) { sumasRestas.push(currentValue) }; break;
-  }*/
-
-  lastValue = currentValue;
+  penultimoValor = ultimoValor;
+  ultimoValor = valorActual;
 }
 
 function reiniciar () {
@@ -34,8 +34,21 @@ function reiniciar () {
 }
 
 function calcular () {
-  const input = datos.innerText;
-                                              // n: negativo
+  let input = datos.innerText;
+
+  // comprobamos si hay operadores de multiplicación/división al principio
+  // y si es así, los quitamos
+  if (input.charAt(0) === 'x' || input.charAt(0) === '/') {
+    input = input.substr(1);
+  }
+
+  // comprobamos si hay operadores al final del todo y los quitamos
+  // y si es así, los quitamos
+  while (isNaN(input.charAt(input.length-1))) {
+    input = input.substr(0,input.length-1);
+  }
+
+  // preparamos los operadores para poder trabajar con ellos (n: negativo)
   let valores = input.replace(/\+\+/g,'+')    // ++ => +
                      .replace(/\-\-/g,'-n')   // -- => -n
                      .replace(/\+\-/g,'+n')   // +- => +n
@@ -44,30 +57,31 @@ function calcular () {
                      .replace(/x\+/g,'x')     // x+ => x
                      .replace(/\/-/g,'\/n')   // /- => /n
                      .replace(/x-/g,'xn');    // x- => xn
+
   // nos quedamos por un lado las sumas y las restas
-  let sumasRestas = valores.replace(/[\d|x|n|\/]/g,'').split('');
+  let sumasRestas = valores.replace(/[\d|x|n|\/|\.]/g,'').split('');
   // y por otro con las divisiones y las multiplicaciones
   // que calcularemos lo primero
   let filtro = valores.replace(/[\+|\-]/g,',').split(',');
-  console.log(sumasRestas,filtro);
+  console.log(filtro);
   let numeros = []; // y vamos a añadir los números resultantes en un array
 
   filtro.forEach( elemento => {
     if (elemento.includes('x') || elemento.includes('/')) {
       // separamos de nuevo las cifras de los operadores
       let operaciones = elemento.replace(/n/g,'-').split(/[x|\/]/g);
-      console.log(operaciones);
-      let multiDivisiones = elemento.replace(/[\d|n]/g,'').split('');
-      let operacion = 0;
 
+      let multiDivisiones = elemento.replace(/[\d|n|\.]/g,'').split('');
+      let operacion = 0;
+console.log(multiDivisiones);
       // y calculamos !!
       let resultado = operaciones.reduce( (total,num) => {
         if (multiDivisiones[operacion] === 'x') {
           operacion += 1;
-          return total * num;
+          return total * parseFloat(num);
         } else {
           operacion += 1;
-          return total / num;
+          return total / parseFloat(num);
         }
       });
 
@@ -76,7 +90,7 @@ function calcular () {
       numeros.push(resultado);
 
     } else {
-      numeros.push(elemento.replace('n','-'));
+      numeros.push(parseFloat(elemento.replace('n','-')));
     }
   });
 
