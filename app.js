@@ -1,3 +1,12 @@
+/* Tareas pendientes:
+
+# números negativos
+# que después de un / no se pueda poner un 0
+# que se muestre el resultado
+# poder realizar operaciones a través del teclado también
+
+*/
+
 const datos = document.getElementById('datos');
 
 function clickHandler (event) {
@@ -11,7 +20,7 @@ function reiniciar () {
 function calcular () {
   const input = datos.innerText;
   // nos quedamos por un lado las sumas y las restas
-  let sumasRestas = input.split(/[\d|x|\/]/g);
+  let sumasRestas = input.replace(/[\d|x|/]/g,'').split('');
   // y por otro con las divisiones y las multiplicaciones
   // que calcularemos lo primero
   let filtro = input.split(/[-|+]/g);
@@ -40,11 +49,32 @@ function calcular () {
       numeros.push(resultado);
 
     } else {
-      numeros.push(elemento);
+      numeros.push(parseInt(elemento));
     }
   });
 
+  let operacion = 0;
 
+  let resultadoTotal = numeros.reduce( (total,num) => {
+    if (sumasRestas[operacion] === '+') {
+      operacion += 1;
+      return total + num;
+    } else {
+      operacion += 1;
+      return total - num;
+    }
+  });
 
-  console.log(numeros);
+  datos.innerText = resultadoTotal;
 }
+
+/*
+
+      __    ___     __
+||   /  \  /   )   /  \  ||\   ||
+||  ||  ||||  __  ||  || || \  ||
+||  ||  ||||   || ||==|| ||  \ ||
+||__ \__/  \___/  ||  || ||   \||
+https://github.com/drowvoloper
+
+*/
