@@ -1,9 +1,3 @@
-/* Tareas pendientes:
-
-// accesibilidad
-
-*/
-
 const datos = document.getElementById('datos');
 let valorActual = null;
 let ultimoValor = null;
